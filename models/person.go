@@ -7,3 +7,10 @@ type Person struct {
 	Age string
 	Sex string
 }
+
+type Mine struct {
+	Name string
+	Birthday string
+	Address string
+	Nick string
+}

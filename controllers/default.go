@@ -50,19 +50,20 @@ func (c *MainController) Get() {//匿名字段：一个结构体可以包含另�
 //}
 func (c *MainController) Post() {
 	//1.解析前段提交的json格式的数据
-	var person models.Person
+	var mine models.Mine
 	dataBytes,err :=ioutil.ReadAll(c.Ctx.Request.Body)
 	if err !=nil {
 		c.Ctx.WriteString("数据接收失败，请重试")
 		return
 	}
-	err = json.Unmarshal(dataBytes,&person)
+	err = json.Unmarshal(dataBytes,&mine)
 	if err != nil {
 		c.Ctx.WriteString("数据接收失败2，请重试")
 		return
 	}
-	fmt.Println("姓名：",person.Name)
-	fmt.Println("年龄：",person.Age)
-	fmt.Println("性别：",person.Sex)
+	fmt.Println("姓名：",mine.Name)
+	fmt.Println("生日：",mine.Birthday)
+	fmt.Println("地址：",mine.Address)
+	fmt.Println("别名：",mine.Nick)
 	c.Ctx.WriteString("数据解析成功")
 }
