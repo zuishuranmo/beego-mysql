@@ -8,9 +8,3 @@ type Person struct {
 	Sex string
 }
 
-type Mine struct {
-	Name string
-	Birthday string
-	Address string
-	Nick string
-}

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/astaxie/beego"
 	"io/ioutil"
+	"sgwe/db_mysql"
 	"sgwe/models"
 )
 
@@ -50,7 +51,7 @@ func (c *MainController) Get() {//匿名字段：一个结构体可以包含另�
 //}
 func (c *MainController) Post() {
 	//1.解析前段提交的json格式的数据
-	var mine models.Mine
+	var mine models.User
 	dataBytes,err :=ioutil.ReadAll(c.Ctx.Request.Body)
 	if err !=nil {
 		c.Ctx.WriteString("数据接收失败，请重试")
@@ -61,9 +62,20 @@ func (c *MainController) Post() {
 		c.Ctx.WriteString("数据接收失败2，请重试")
 		return
 	}
-	fmt.Println("姓名：",mine.Name)
-	fmt.Println("生日：",mine.Birthday)
-	fmt.Println("地址：",mine.Address)
-	fmt.Println("别名：",mine.Nick)
-	c.Ctx.WriteString("数据解析成功")
+
+	id,err := db_mysql.InsertUser(mine)
+	if err !=nil {
+		fmt.Println(err.Error())
+		fmt.Println("用户保存失败。")
+		return
+	}
+	fmt.Println(id)
+
+	result := models.ResponResult{
+		Code:0,
+		Message:"保存成功",
+		Data:nil,
+	}
+	c.Data["json"] = &result
+	c.ServeJSON()
 }
